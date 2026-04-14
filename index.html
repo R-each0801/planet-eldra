@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Planet Eldra - 惑星エルドラ</title>
-<meta name="description" content="六角形グリッド上で生態系を構築するリアルタイムシミュレーションゲーム。10種の生物を配置し、食物連鎖と環境のバランスを取りながら生態系を安定させよう。">
+<meta name="description" content="Build ecosystems on a hexagonal planet. Deploy creatures, balance food chains, and stabilize life on Planet Eldra.">
 <style>
   :root {
     --gold: #D4A656;
@@ -21,161 +21,77 @@
     line-height: 1.7;
   }
   .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+  .lang-switch {
+    position: fixed; top: 12px; right: 16px; z-index: 100;
+    display: flex; gap: 4px;
+  }
+  .lang-switch button {
+    background: rgba(42,35,27,0.9); border: 1px solid var(--gold);
+    color: var(--gold); padding: 4px 12px; border-radius: 4px;
+    cursor: pointer; font-size: 0.8em;
+  }
+  .lang-switch button.active { background: var(--gold); color: var(--dark); }
+  .ja { display: block; } .en { display: none; }
+  body.en-mode .ja { display: none; } body.en-mode .en { display: block; }
+  body.en-mode .ja-inline { display: none; } body.en-mode .en-inline { display: inline; }
+  .ja-inline { display: inline; } .en-inline { display: none; }
 
-  /* Hero */
   .hero {
-    text-align: center;
-    padding: 80px 24px 60px;
+    text-align: center; padding: 80px 24px 60px;
     background: linear-gradient(180deg, #0D1B2A 0%, var(--bg) 100%);
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background: radial-gradient(circle at 50% 30%, rgba(68,138,255,0.08) 0%, transparent 60%);
   }
-  .hero h1 {
-    font-size: 2.8em;
-    font-weight: 900;
-    color: var(--gold);
-    letter-spacing: 4px;
-    margin-bottom: 8px;
-    position: relative;
-  }
-  .hero .subtitle {
-    font-size: 1.1em;
-    color: #9A8A76;
-    letter-spacing: 2px;
-    margin-bottom: 32px;
-  }
-  .hero .tagline {
-    font-size: 1.2em;
-    color: var(--cream);
-    max-width: 500px;
-    margin: 0 auto 40px;
-  }
-  .badge-row {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+  .hero h1 { font-size: 2.8em; font-weight: 900; color: var(--gold); letter-spacing: 4px; margin-bottom: 8px; position: relative; }
+  .hero .subtitle { font-size: 1.1em; color: #9A8A76; letter-spacing: 2px; margin-bottom: 32px; }
+  .hero .tagline { font-size: 1.2em; color: var(--cream); max-width: 500px; margin: 0 auto 40px; }
+  .badge-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
   .badge-row a img { height: 48px; }
 
-  /* Section */
   section { padding: 60px 0; }
   section:nth-child(even) { background: rgba(255,255,255,0.02); }
-  h2 {
-    font-size: 1.6em;
-    color: var(--gold);
-    text-align: center;
-    margin-bottom: 32px;
-    letter-spacing: 2px;
-  }
-  h2::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 2px;
-    background: var(--gold);
-    margin: 12px auto 0;
-  }
+  h2 { font-size: 1.6em; color: var(--gold); text-align: center; margin-bottom: 32px; letter-spacing: 2px; }
+  h2::after { content: ''; display: block; width: 40px; height: 2px; background: var(--gold); margin: 12px auto 0; }
 
-  /* Screenshots */
-  .screenshots {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
+  .screenshots { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
   .screenshots img {
-    width: 200px;
-    border-radius: 16px;
+    width: 200px; border-radius: 16px;
     border: 2px solid rgba(212,166,86,0.2);
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
-  .screenshots .placeholder {
-    width: 200px;
-    height: 430px;
-    border-radius: 16px;
-    border: 2px dashed rgba(212,166,86,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #7A6A5A;
-    font-size: 0.8em;
-    background: rgba(255,255,255,0.02);
-  }
 
-  /* Features */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-  }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
   .feature-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(212,166,86,0.15);
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(212,166,86,0.15);
+    border-radius: 12px; padding: 24px; text-align: center;
   }
   .feature-card .icon { font-size: 2em; margin-bottom: 12px; }
   .feature-card h3 { color: var(--gold); font-size: 1.1em; margin-bottom: 8px; }
   .feature-card p { font-size: 0.9em; color: #B0A090; }
 
-  /* Creatures */
-  .creature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
-  }
+  .creature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
   .creature-chip {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(212,166,86,0.1);
-    border-radius: 8px;
-    padding: 14px 12px 10px;
-    text-align: center;
-    font-size: 0.85em;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(212,166,86,0.1);
+    border-radius: 8px; padding: 14px 12px 10px; text-align: center; font-size: 0.85em;
   }
-  .creature-chip img {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    margin-bottom: 6px;
-    object-fit: cover;
-  }
+  .creature-chip img { width: 48px; height: 48px; border-radius: 50%; margin-bottom: 6px; object-fit: cover; }
   .creature-chip .silhouette {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    margin: 0 auto 6px;
-    background: #3A3028;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #5A4A3A;
-    font-size: 1.6em;
+    width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 6px;
+    background: #3A3028; display: flex; align-items: center; justify-content: center;
+    color: #5A4A3A; font-size: 1.6em;
   }
   .creature-chip .name { color: var(--gold); font-weight: 700; }
   .creature-chip .role { color: #9A8A76; font-size: 0.8em; margin-top: 2px; }
 
-  /* Stages */
-  .stage-info {
-    text-align: center;
-    color: #B0A090;
-    font-size: 1em;
-  }
+  .stage-info { text-align: center; color: #B0A090; font-size: 1em; }
   .stage-info strong { color: var(--gold); font-size: 1.3em; }
 
-  /* Footer */
   footer {
-    text-align: center;
-    padding: 40px 24px;
-    border-top: 1px solid rgba(212,166,86,0.1);
-    color: #7A6A5A;
-    font-size: 0.85em;
+    text-align: center; padding: 40px 24px;
+    border-top: 1px solid rgba(212,166,86,0.1); color: #7A6A5A; font-size: 0.85em;
   }
   footer a { color: var(--gold); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
@@ -186,22 +102,27 @@
     .hero h1 { font-size: 2em; }
     .features { grid-template-columns: 1fr; }
     .creature-grid { grid-template-columns: repeat(2, 1fr); }
-    .screenshots img, .screenshots .placeholder { width: 160px; height: auto; }
+    .screenshots img { width: 160px; }
   }
 </style>
 </head>
 <body>
 
+<div class="lang-switch">
+  <button class="active" id="btn-ja" onclick="setLang('ja')">日本語</button>
+  <button id="btn-en" onclick="setLang('en')">English</button>
+</div>
+
 <!-- Hero -->
 <header class="hero">
   <h1>Planet Eldra</h1>
-  <p class="subtitle">惑星エルドラ</p>
-  <p class="tagline">六角形グリッドの上に広がる小さな惑星。<br>10種の生物を配置し、食物連鎖と環境のバランスを取りながら、生態系を安定させよう。</p>
+  <p class="subtitle ja">惑星エルドラ</p>
+  <p class="subtitle en">Ecosystem Simulation</p>
+  <p class="tagline ja">小さな惑星に広がる草原。<br>生物を配置し、食物連鎖と環境のバランスを取りながら、生態系を安定させよう。</p>
+  <p class="tagline en">A small planet of sprawling grasslands.<br>Deploy creatures, balance the food chain, and stabilize the ecosystem.</p>
   <div class="badge-row">
-    <!-- App Store / Google Play バッジ（リリース後に差し替え） -->
     <!--
     <a href="#"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store"></a>
-    <a href="#"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Google Play"></a>
     -->
   </div>
 </header>
@@ -211,10 +132,9 @@
   <div class="container">
     <h2>GAMEPLAY</h2>
     <div class="screenshots">
-      <!-- スクリーンショット（画像ファイルをdocs/に配置後、パスを差し替え） -->
-      <img src="screenshot_1.png" alt="ゲームプレイ画面">
-      <img src="screenshot_2.png" alt="ゲームプレイ画面">
-      <img src="screenshot_3.png" alt="ゲームプレイ画面">
+      <img src="screenshot_1.png" alt="Gameplay 1">
+      <img src="screenshot_2.png" alt="Gameplay 2">
+      <img src="screenshot_3.png" alt="Gameplay 3">
     </div>
   </div>
 </section>
@@ -226,23 +146,27 @@
     <div class="features">
       <div class="feature-card">
         <div class="icon">&#x2B21;</div>
-        <h3>ヘックスグリッド</h3>
-        <p>六角形のマスで構成された惑星。セルごとに植生・土壌が変化し、生物たちの生息環境を左右します。</p>
+        <h3><span class="ja-inline">ヘックスマップ</span><span class="en-inline">Hex Map</span></h3>
+        <p class="ja">六角形のマスで構成された惑星。セルごとに植生・土壌が変化し、生物たちの生息環境を左右します。</p>
+        <p class="en">A planet built from hexagonal cells. Vegetation and soil shift in each cell, shaping the habitat for every creature.</p>
       </div>
       <div class="feature-card">
         <div class="icon">&#x1F9EC;</div>
-        <h3>遺伝子操作</h3>
-        <p>生物の寿命・繁殖力・耐性などを遺伝子レベルで調整。戦略的な生態系設計が可能です。</p>
+        <h3><span class="ja-inline">遺伝子操作</span><span class="en-inline">Gene Tuning</span></h3>
+        <p class="ja">生物の寿命・繁殖力・耐性などを遺伝子レベルで調整。戦略的な生態系設計が可能です。</p>
+        <p class="en">Adjust lifespan, fertility, and resistance at the genetic level. Design your ecosystem strategically.</p>
       </div>
       <div class="feature-card">
         <div class="icon">&#x1F30D;</div>
-        <h3>リアルタイムシミュレーション</h3>
-        <p>捕食・繁殖・分解・天候変化がリアルタイムで進行。生態系は常に変化し続けます。</p>
+        <h3><span class="ja-inline">リアルタイムシミュレーション</span><span class="en-inline">Real-Time Simulation</span></h3>
+        <p class="ja">捕食・繁殖・分解・天候変化がリアルタイムで進行。生態系は常に変化し続けます。</p>
+        <p class="en">Predation, breeding, decomposition, and weather unfold in real time. The ecosystem never stops changing.</p>
       </div>
       <div class="feature-card">
         <div class="icon">&#x1F3AF;</div>
-        <h3>70以上のステージ</h3>
-        <p>Lv.1の入門からLv.4の超高難度まで。ステージごとに異なるクリア条件と環境が待ち受けます。</p>
+        <h3><span class="ja-inline">多彩なステージ</span><span class="en-inline">Diverse Stages</span></h3>
+        <p class="ja">入門から超高難度まで段階的に解放。ステージごとに異なるクリア条件と環境が待ち受けます。</p>
+        <p class="en">Progressively unlocked from beginner to extreme. Each stage presents unique conditions and environments.</p>
       </div>
     </div>
   </div>
@@ -251,47 +175,57 @@
 <!-- Creatures -->
 <section>
   <div class="container">
-    <h2>10 CREATURES</h2>
+    <h2>CREATURES</h2>
     <div class="creature-grid">
       <div class="creature-chip">
-        <img src="icon_grassland_01.png" alt="ボルグ">
-        <div class="name">ボルグ</div><div class="role">大型草食獣</div>
+        <img src="grassland_01.png" alt="Bolg">
+        <div class="name"><span class="ja-inline">ボルグ</span><span class="en-inline">Bolg</span></div>
+        <div class="role"><span class="ja-inline">大型草食獣</span><span class="en-inline">Large Herbivore</span></div>
       </div>
       <div class="creature-chip">
-        <img src="icon_grassland_02.png" alt="ルィッカ">
-        <div class="name">ルィッカ</div><div class="role">小型草食獣</div>
+        <img src="grassland_02.png" alt="Ruikka">
+        <div class="name"><span class="ja-inline">ルィッカ</span><span class="en-inline">Ruikka</span></div>
+        <div class="role"><span class="ja-inline">小型草食獣</span><span class="en-inline">Small Herbivore</span></div>
       </div>
       <div class="creature-chip">
-        <img src="icon_grassland_03.png" alt="ズーラ">
-        <div class="name">ズーラ</div><div class="role">群れの捕食鳥</div>
-      </div>
-      <div class="creature-chip">
-        <div class="silhouette">?</div>
-        <div class="name">ジパンガ</div><div class="role">頂点捕食者</div>
-      </div>
-      <div class="creature-chip">
-        <div class="silhouette">?</div>
-        <div class="name">ゲヒナ</div><div class="role">徘徊する分解者</div>
-      </div>
-      <div class="creature-chip">
-        <img src="icon_grassland_06.png" alt="カルセポネ">
-        <div class="name">カルセポネ</div><div class="role">菌糸の分解者</div>
+        <img src="grassland_03.png" alt="Zura">
+        <div class="name"><span class="ja-inline">ズーラ</span><span class="en-inline">Zura</span></div>
+        <div class="role"><span class="ja-inline">群れの捕食者</span><span class="en-inline">Pack Predator</span></div>
       </div>
       <div class="creature-chip">
         <div class="silhouette">?</div>
-        <div class="name">ヘリオル</div><div class="role">光合成の守護者</div>
+        <div class="name"><span class="ja-inline">ジパンガ</span><span class="en-inline">Jipanga</span></div>
+        <div class="role"><span class="ja-inline">頂点捕食者</span><span class="en-inline">Apex Predator</span></div>
       </div>
       <div class="creature-chip">
         <div class="silhouette">?</div>
-        <div class="name">ゼーガン</div><div class="role">超大型土壌食</div>
+        <div class="name"><span class="ja-inline">ゲヒナ</span><span class="en-inline">Gehina</span></div>
+        <div class="role"><span class="ja-inline">徘徊する分解者</span><span class="en-inline">Roaming Decomposer</span></div>
+      </div>
+      <div class="creature-chip">
+        <img src="grassland_06.png" alt="Karucepone">
+        <div class="name"><span class="ja-inline">カルセポネ</span><span class="en-inline">Karucepone</span></div>
+        <div class="role"><span class="ja-inline">菌糸の分解者</span><span class="en-inline">Mycelium Decomposer</span></div>
       </div>
       <div class="creature-chip">
         <div class="silhouette">?</div>
-        <div class="name">ハシュカ</div><div class="role">繭落としの殻獣</div>
+        <div class="name"><span class="ja-inline">ヘリオル</span><span class="en-inline">Heliol</span></div>
+        <div class="role"><span class="ja-inline">光合成の守護者</span><span class="en-inline">Solar Guardian</span></div>
       </div>
       <div class="creature-chip">
         <div class="silhouette">?</div>
-        <div class="name">ドーザ</div><div class="role">鋤鼻の掘り獣</div>
+        <div class="name"><span class="ja-inline">ゼーガン</span><span class="en-inline">Zeagan</span></div>
+        <div class="role"><span class="ja-inline">超大型土壌食</span><span class="en-inline">Colossal Soil Eater</span></div>
+      </div>
+      <div class="creature-chip">
+        <div class="silhouette">?</div>
+        <div class="name"><span class="ja-inline">ハシュカ</span><span class="en-inline">Hashka</span></div>
+        <div class="role"><span class="ja-inline">繭落としの殻獣</span><span class="en-inline">Cocoon Dropper</span></div>
+      </div>
+      <div class="creature-chip">
+        <div class="silhouette">?</div>
+        <div class="name"><span class="ja-inline">ドーザ</span><span class="en-inline">Dorza</span></div>
+        <div class="role"><span class="ja-inline">鋤鼻の掘り獣</span><span class="en-inline">Plow-Snouted Digger</span></div>
       </div>
     </div>
   </div>
@@ -302,9 +236,10 @@
   <div class="container">
     <h2>STAGES</h2>
     <div class="stage-info">
-      <p><strong>70+</strong> ステージ</p>
-      <p style="margin-top:12px;">4つの難易度レベル + ハードモード</p>
-      <p style="margin-top:8px; font-size:0.9em;">個体数の維持、植生率・土壌率の管理、制限時間内のクリアなど<br>多彩な条件を達成して惑星エルドラの生態系を安定させましょう。</p>
+      <p class="ja" style="margin-top:12px;">4つの難易度レベル + ハードモード</p>
+      <p class="en" style="margin-top:12px;">4 Difficulty Levels + Hard Mode</p>
+      <p class="ja" style="margin-top:8px; font-size:0.9em;">個体数の維持、植生率・土壌率の管理、制限時間内のクリアなど<br>多彩な条件を達成して惑星エルドラの生態系を安定させましょう。</p>
+      <p class="en" style="margin-top:8px; font-size:0.9em;">Maintain population counts, manage vegetation and soil rates, clear within time limits —<br>meet diverse conditions to stabilize Planet Eldra's ecosystem.</p>
     </div>
   </div>
 </section>
@@ -313,10 +248,19 @@
 <footer>
   <div class="footer-links">
     <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="mailto:support@example.com">Contact</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="mailto:and2and2and21@gmail.com">Contact</a>
   </div>
   <p>&copy; 2026 Planet Eldra. All rights reserved.</p>
 </footer>
+
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('en-mode', lang === 'en');
+  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+</script>
 
 </body>
 </html>
